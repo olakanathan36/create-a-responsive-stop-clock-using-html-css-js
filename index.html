@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="section">
+        <div class="container">
+            <div class="con1">
+                <p id="hour">00</p>
+                <p>:</p>
+                <p id="minutes">00</p>
+                <p>:</p>
+                <p id="seconds">00</p>
+            </div>
+            <div class="con2">
+                <button type="button" id="start">Start</button>
+                <button type="button" id="lap">Lap</button>
+                <button type="button" id="stop">Stop</button>
+                <button type="button" id="reset">Reset</button>
+            </div>
+            <div class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        let hour = document.getElementById('hour');
+        let minutes = document.getElementById('minutes');
+        let seconds = document.getElementById('seconds');
+
+        const Lap = document.getElementById('lap');
+        const Stop = document.getElementById('stop');
+        const Reset = document.getElementById('reset');
+
+        const result = document.getElementById('result');
+
+        let start = true;
+        let count = 0;
+        let intervalId;
+        let lapcount = 0;
+
+        document.getElementById('start').onclick = function() {
+            if (start) {
+                intervalId = setInterval(() => {
+                    count++;
+                    seconds.textContent = String(count % 60).padStart(2, '0');
+                    minutes.textContent = String(Math.floor(count / 60) % 60).padStart(2, '0');
+                    hour.textContent = String(Math.floor(count / 3600)).padStart(2, '0');
+                }, 1000); 
+                start = false;
+            }
+        };
+
+        Lap.addEventListener('click', () => {
+        lapcount += 1;
+        result.innerHTML += `Lap ${lapcount} : ${hour.textContent} : ${minutes.textContent} : ${seconds.textContent}`;
+        });
+
+        Stop.addEventListener('click', () => {
+            clearInterval(intervalId);
+            start = true;
+        });
+
+        Reset.addEventListener('click', () => {
+            count = 0;
+            seconds.textContent = '00';
+            minutes.textContent = '00';
+            hour.textContent = '00';
+        });
+    </script>
+</body>
+</html>
